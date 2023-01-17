@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<form action="{{url_for("welcome")}}"  method="get">
+    <p>
+        <label for="nom">N</label>
+        <input type="text" name="nom" id="nom">
+    </p>
+    <p>
+        <label for="prenom">Prenom:</label>
+        <input type="text" name="prenom" id="prenom">
+    </p>
+    <p>
+        <label for="age">Age :</label>
+        <input name="age" id="age" />
+    </p>
+    <p>
+        <label for="telephone">Téléphone :</label>
+        <input name="telephone" id="telephone" />
+    </p>
+    <p>
+        <label for="email">Courriel :</label>
+        <input name="email" id="email" size="30" />
+    </p>
+    <p>
+        <input type="submit" value="Se connecter">
+    </p>
+</form>
+</body>
+</html>

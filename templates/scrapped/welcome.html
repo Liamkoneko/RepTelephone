@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+    <ul>
+    <li>
+    Bonjour {{ firstname }}
+    </li>
+    <li>
+    Ton nom est {{ name }}
+    </li>
+    <li>
+    Ton age est {{ age }}
+    </li>
+    <li>
+    Ton numéro de téléphone est {{ telephone }}
+    </li>
+    <li>
+    Ton mail est {{ mail }}
+    </li>
+    <p>
+    <a href="{{url_for("login")}}"> Retour à la page de connexion</a>
+    </p>
+    </ul>
+</body>
+</html>

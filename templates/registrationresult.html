@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Enregistrement achevé!</title>
+</head>
+<body>
+    <ul>
+    <li>
+    Bonjour {{ firstname }} {{ name }}, votre numéro a été enregistré dans notre database.
+    </li>
+    <li>
+    Votre numéro de téléphone est {{ telephone }}
+    </li>
+    <p>
+    <a href="{{url_for("registerphone")}}"> Retour à la page d'enregistrement.</a>
+    </p>
+    </ul>
+</body>
+</html>
