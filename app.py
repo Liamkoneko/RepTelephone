@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import csv
 
 app = Flask(__name__)
@@ -14,6 +14,7 @@ def fsWriteProtocol(n,p,t):
 
 def fsReadProtocol(n,p,t):
     importedlist = []
+    idcode = 1
     fs = open('phn_database.csv', 'r')
     reader = csv.DictReader(fs, delimiter=';')
     for row in reader:
@@ -22,7 +23,8 @@ def fsReadProtocol(n,p,t):
                               'phonenumber' :str(row['phonenumber'])})
     for phonerow in importedlist:
         if phonerow['name'] == n or phonerow['firstname'] == p or phonerow['phonenumber'] == t:
-            return([phonerow['name'], phonerow['firstname'], phonerow['phonenumber']])
+            return([phonerow['name'], phonerow['firstname'], phonerow['phonenumber'], idcode])
+        idcode += 1
 
 # Scrap Delete Protocol for now, I'll work on it later            
 def fsDeleteProtocol(n,p,t):
@@ -55,10 +57,14 @@ def fsReplacementProtocol(n,p,t,implist):
     
     
 
-registrationlist = {"0611651627": "Liam COLLE"}
+#registrationlist = {"0611651627": "Liam COLLE"}
 @app.route('/')
 def home():
     return render_template("home.html")
+
+@app.route('/test')
+def test():
+    return render_template("test.html")
 
 @app.route('/registerphone')
 def registerphone():
@@ -77,31 +83,32 @@ def searchphoneresults():
     
     finalprocessing = fsReadProtocol(nom, prenom, telephone)
     print("[SERVEXEC]: Final Processing values fetched! " + str(finalprocessing))
-    if finalprocessing == ['','','']:
+    if finalprocessing == ['','',''] or finalprocessing == None:
         print("[SERVEXEC]: Reader hasn't found anything. Returning 'Not Found'")
-        return render_template("searchphoneresults.html", owner = "Not Found", number = "ERROR")
+        return render_template("searchphoneresults.html", name = "UNKNOWN", firstname = "UNKNOWN", number = "UNKNOWN", idcode = "#")
     
     print("[SERVEXEC]: Reader found occurence in database! Name:",finalprocessing[0] + " Firstname: " + finalprocessing[1] + " Phonenumber: " + finalprocessing[2])
+    print("[SERVEXEC]: Under ID: " + str(finalprocessing[3]))
     result = finalprocessing[0] + ' ' + finalprocessing[1]
-    return render_template("searchphoneresults.html", owner = result, number = finalprocessing[2])
-    
-    #result = registrationlist.get(telephone, "Not Found")
-    
-    
-    return render_template("searchphoneresults.html", owner = result, number=telephone)
+    return render_template("searchphoneresults.html", name = finalprocessing[0], firstname = finalprocessing[1], number = finalprocessing[2], idcode = finalprocessing[3])
 
 @app.route('/registrationresult', methods=['POST', 'GET'])
 def registrationresult():
     nom = request.form['nom']
     prenom = request.form['prenom']
     telephone = request.form['telephone']
+    if nom != '' and prenom != '' and telephone != '':
+        fsWriteProtocol(nom, prenom, telephone)
+        print("[SERVEXEC]: Starting database write")
+        print("[SERVEXEC]: STATUS WRITEDATA")
+        print("[SERVEXEC]: Writing new database row")
+        
+        return render_template("registrationresult.html", name=nom, firstname=prenom, telephone=telephone)
+    print("[SERVEXEC]: Invalid Data. Returning 406")
     
-    fsWriteProtocol(nom, prenom, telephone)
-    print("[SERVEXEC]: Starting database write")
-    print("[SERVEXEC]: STATUS WRITEDATA")
-    print("[SERVEXEC]: Writing new database row")
-    
-    return render_template("registrationresult.html", name=nom, firstname=prenom, telephone=telephone)
+    #♣notacceptable(406)
+    #return "Record not found", HTTP_406_NOT_ACCEPTABLE
+    return render_template('406.html')
 
 @app.route('/admin')
 def adminmode():
@@ -120,5 +127,14 @@ def adminmodefinished():
     
     return render_template("registrationresult.html", name=nom, firstname=prenom, telephone=telephone)
 
-if __name__ == '__main__':
+@app.errorhandler(404)
+def notfounderror(e):
+    return render_template('404.html'), 404
+
+@app.route('/406')
+def notacceptable():
+    print("406")
+    return render_template('406.html'), 406
+
+if __name__ == '__main__': 
     app.run()

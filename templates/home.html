@@ -2,20 +2,63 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Page d'accueil</title>
+    <meta name="viewport" content="width=device-width">
+    <title>RegiPhone - Page d'accueil</title>
+    <link href="static/bulma.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <ul>
-    <p>Bienvenue sur le registre téléphonique.</p>
-    <p>
-        <a href="{{url_for("registerphone")}}">Accéder à la page d'enregistrement</a>
-    </p>
-    <p>
-        <a href="{{url_for("searchphone")}}">Accéder à la page de recherche</a>
-    </p>
-    <p>
-        <a href="{{url_for("adminmode")}}">Accéder au panneau d'administration</a>
-    </p>
-    </ul>
+  <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item""><img src="static/nsitxt.png" width="112" height="28"></a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="{{url_for("home")}}">Page d'accueil</a>
+        <a class="navbar-item" href="{{url_for("registerphone")}}">Enregistrer un numéro</a>
+        <a class="navbar-item" href="{{url_for("searchphone")}}">Trouver un numéro</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Plus</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="aboutme">A propos</a>
+            <hr class="navbar-divider">
+            <a class="navbar-item is-danger" href="404">Signaler un problème</a>
+          </div>
+        </div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <!--<a class="button is-dark" href="s_wip.html"><strong>S'inscrire</strong></a>-->
+            <a class="button is-light" href="404"><strong>Se connecter</strong></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Commencement de la page -->
+  <h1 class="title is-1">
+      Bienvenue sur RegiPhone
+  </h1>
+  <h1 class="subtitle is-4">
+      RegiPhone est un site conçu pour trouver ou répertorier un numéro de téléphone et son propriétaire
+  </h1>
+  <p></p>
+  <p></p>
+  <h1 class="title is-1" align="center">
+      Fonctionalités du site
+  </h1>
+  <div class="content">
+      <div class="buttons is-centered">
+          <a href="{{url_for("registerphone")}}"><button class="button is-success">Enregistrer un numéro</button></a>
+          <a href="{{url_for("searchphone")}}"><button class="button is-info">Trouver un numéro / propriétaire</button></a>
+      </div>
+  </div>
 </body>
 </html>
