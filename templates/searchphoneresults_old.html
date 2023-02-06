@@ -51,22 +51,20 @@
   <table class="table is-narrow is-fullwidth">
   <thead>
   <tr>
-    <th>ID</th>
-    <th>Nom</th>
-    <th>Prenom</th>
-    <th>Telephone</th>
-  </tr>
+      <th>ID</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Telephone</th>
+      </tr>
   </thead>
-  <tbody>
-    {% for dataone in returndata %}
-    <tr>
-      <th>{{ dataone['idcode'] }}</th>
-      <th>{{ dataone['name'] }}</th>
-      <td>{{ dataone['firstname'] }} </td>
-      <td>{{ dataone['phonenumber']}}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
+    <tbody>
+      <tr>
+        <th>{{ idcode }}</th>
+        <td>{{ name }} </td>
+        <td>{{ firstname }}</td>
+        <td>{{ number }}</td>
+      </tr>
+    </tbody>
   </table>
 </body>
 </html>

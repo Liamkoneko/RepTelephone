@@ -2,19 +2,68 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Enregistrement achevé!</title>
+    <title>RegiPhone - Enregistrement Fine!</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="static/bulma.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body>
-    <ul>
-    <li>
-    Bonjour {{ firstname }} {{ name }}, votre numéro a été enregistré dans notre database.
-    </li>
-    <li>
-    Votre numéro de téléphone est {{ telephone }}
-    </li>
-    <p>
-    <a href="{{url_for("registerphone")}}"> Retour à la page d'enregistrement.</a>
-    </p>
-    </ul>
+  <nav class="navbar is-success" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item""><img src="static/nsitxt.png" width="112" height="28"></a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="{{url_for("home")}}">Page d'accueil</a>
+        <a class="navbar-item" href="{{url_for("registerphone")}}">Enregistrer un numéro</a>
+        <a class="navbar-item" href="{{url_for("searchphone")}}">Trouver un numéro</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Plus</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="aboutme">A propos</a>
+            <hr class="navbar-divider">
+            <a class="navbar-item is-danger" href="404">Signaler un problème</a>
+          </div>
+        </div>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <!--<a class="button is-dark" href="s_wip.html"><strong>S'inscrire</strong></a>-->
+            <a class="button is-light" href="404"><strong>Se connecter</strong></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Commencement de la page -->
+  <h1 class="title is-1">
+      Résultats de Recherche
+  </h1>
+  
+  <p></p>
+  <table class="table is-narrow is-fullwidth">
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Prenom</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <th>{{ name }}</th>
+        <td>{{ firstname }} </td>
+        <td>{{ telephone }}</td>
+      </tr>
+    </tbody>
+  </table>
 </body>
 </html>

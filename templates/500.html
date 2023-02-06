@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>RegiPhone - Recherche Finie!</title>
-    <meta name="viewport" content="width=device-width">
-    <link href="static/bulma.css" rel="stylesheet" type="text/css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>RegiPhone - 500</title>
+  <link href="static/bulma.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-  <nav class="navbar is-success" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-danger" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item""><img src="static/nsitxt.png" width="112" height="28"></a>
 
@@ -37,7 +38,7 @@
         <div class="navbar-item">
           <div class="buttons">
             <!--<a class="button is-dark" href="s_wip.html"><strong>S'inscrire</strong></a>-->
-            <a class="button is-light" href="404"><strong>Se connecter</strong></a>
+            <a class="button is-light" href="404">Se connecter</a>
           </div>
         </div>
       </div>
@@ -45,28 +46,24 @@
   </nav>
   <!-- Commencement de la page -->
   <h1 class="title is-1">
-      Résultats de Recherche
+    500
   </h1>
-  <p></p>
-  <table class="table is-narrow is-fullwidth">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Nom</th>
-    <th>Prenom</th>
-    <th>Telephone</th>
-  </tr>
-  </thead>
-  <tbody>
-    {% for dataone in returndata %}
-    <tr>
-      <th>{{ dataone['idcode'] }}</th>
-      <th>{{ dataone['name'] }}</th>
-      <td>{{ dataone['firstname'] }} </td>
-      <td>{{ dataone['phonenumber']}}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-  </table>
+  <div class="content" align="center">
+    <figure class="image is-128x128">
+      <img src="static/placeholderwarning.png">
+    </figure>
+  </div>
+  <div class="columns">
+    <div class="column has-text-centered"><span class="tag is-danger is-large"><strong>Une erreur du Serveur Interne s'est produite. Si cette erreur persiste, veuilliez contacter l'hébergeur.</strong></span></div>
+  </div>
+  <script src="script.js"></script>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        Ce site n'est pas à titre informateur et est créé par <strong>COLLE Liam</strong> du <a href="https://www.lyc-perrin.ac-aix-marseille.fr/"><strong>Lycée Jean Perrin</strong></a> pour la <u>spécialité de NSI</u>.
+      </p>
+    </div>
+  </footer>
 </body>
+
 </html>

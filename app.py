@@ -2,7 +2,11 @@
 from flask import Flask, render_template, request, make_response
 import csv
 
+# Think about LINQ C# syntax for python?
+
 app = Flask(__name__)
+
+fsReadFound = 0
 
 importedlist = []
 def fsWriteProtocol(n,p,t):
@@ -14,17 +18,28 @@ def fsWriteProtocol(n,p,t):
 
 def fsReadProtocol(n,p,t):
     importedlist = []
+    returnlist = []
     idcode = 1
+    global fsReadFound
+    fsReadFound = 0
     fs = open('phn_database.csv', 'r')
     reader = csv.DictReader(fs, delimiter=';')
     for row in reader:
         importedlist.append({'name' : str(row['name']),
                               'firstname' :str(row['firstname']),
                               'phonenumber' :str(row['phonenumber'])})
+    #print(str(importedlist))
     for phonerow in importedlist:
         if phonerow['name'] == n or phonerow['firstname'] == p or phonerow['phonenumber'] == t:
-            return([phonerow['name'], phonerow['firstname'], phonerow['phonenumber'], idcode])
+            returnlist.append({'name' : str(phonerow['name']),
+                              'firstname' :str(phonerow['firstname']),
+                              'phonenumber' :str(phonerow['phonenumber']),
+                              'idcode' :str(idcode)})
+            #returnlist.append([str(phonerow['name']),str(phonerow['firstname']),str(phonerow['phonenumber']),str(idcode)])
+            fsReadFound += 1
+            #return([phonerow['name'], phonerow['firstname'], phonerow['phonenumber'], idcode])
         idcode += 1
+    return([returnlist])
 
 # Scrap Delete Protocol for now, I'll work on it later            
 def fsDeleteProtocol(n,p,t):
@@ -83,14 +98,26 @@ def searchphoneresults():
     
     finalprocessing = fsReadProtocol(nom, prenom, telephone)
     print("[SERVEXEC]: Final Processing values fetched! " + str(finalprocessing))
-    if finalprocessing == ['','',''] or finalprocessing == None:
-        print("[SERVEXEC]: Reader hasn't found anything. Returning 'Not Found'")
-        return render_template("searchphoneresults.html", name = "UNKNOWN", firstname = "UNKNOWN", number = "UNKNOWN", idcode = "#")
+    print("[SERVEXEC]: Found occurences: " + str(fsReadFound))
     
-    print("[SERVEXEC]: Reader found occurence in database! Name:",finalprocessing[0] + " Firstname: " + finalprocessing[1] + " Phonenumber: " + finalprocessing[2])
-    print("[SERVEXEC]: Under ID: " + str(finalprocessing[3]))
-    result = finalprocessing[0] + ' ' + finalprocessing[1]
-    return render_template("searchphoneresults.html", name = finalprocessing[0], firstname = finalprocessing[1], number = finalprocessing[2], idcode = finalprocessing[3])
+    result = finalprocessing[0]
+    # Ce code génère une erreur 500
+    #print(finalprocessing[7])
+    
+    if finalprocessing[0] == None or fsReadFound == 0:
+        print("[SERVEXEC]: Reader hasn't found anything. Returning 'Not Found'")
+        return render_template("searchphoneresults.html", returndata = [{'name': 'UNKNOWN', 'firstname': 'UNKNOWN', 'phonenumber': 'UNKNOWN', 'idcode': '#'}])
+    #print("[SERVEXEC]: Reader found occurence in database! Name:",finalprocessing[0] + " Firstname: " + finalprocessing[1] + " Phonenumber: " + finalprocessing[2])
+    print("[SERVEXEC]: Reader found occurence in database!")
+    #data2processing = finalprocessing[0]
+    #print(finalprocessing[0])
+    #for dataone in data2processing:
+    #    print(str(dataone))
+    #    securelist = [str(dataone['name']),str(dataone['firstname']),str(dataone['phonenumber']),str(dataone['idcode'])]
+    #    print(str(securelist))
+    #result = finalprocessing[0] + ' ' + finalprocessing[1]
+    #return render_template("searchphoneresults.html", name = finalprocessing[0], firstname = finalprocessing[1], number = finalprocessing[2], idcode = finalprocessing[3])
+    return render_template("searchphoneresults.html", returndata = result)
 
 @app.route('/registrationresult', methods=['POST', 'GET'])
 def registrationresult():
@@ -130,6 +157,10 @@ def adminmodefinished():
 @app.errorhandler(404)
 def notfounderror(e):
     return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def notfounderror(e):
+    return render_template('500.html'), 500
 
 @app.route('/406')
 def notacceptable():
